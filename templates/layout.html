@@ -1,4 +1,3 @@
-{% load static tailwind_tags %}
 {% load static %}
 <!DOCTYPE html>
 
@@ -15,7 +14,6 @@
         {% endblock %}
     </title>
 
-    
 </head>
 
 
@@ -83,7 +81,7 @@ z-index:1000;
     <div class="d-flex align-items-center gap-3">
 
 
-        <!-- ADMIN BUTTON (always visible) -->
+        <!-- ADMIN BUTTON -->
         <a href="/admin/" 
            class="btn-admin text-decoration-none">
             ⚙ Admin
@@ -133,7 +131,6 @@ z-index:1000;
 
 /* Primary button */
 .btn-modern{
-
 background:#3b82f6;
 color:white;
 padding:6px 16px;
@@ -141,7 +138,6 @@ border-radius:8px;
 text-decoration:none;
 font-weight:500;
 transition:0.2s;
-
 }
 
 .btn-modern:hover{
@@ -152,7 +148,6 @@ color:white;
 
 /* Outline button */
 .btn-modern-outline{
-
 border:1px solid #3b82f6;
 color:#3b82f6;
 padding:6px 16px;
@@ -160,7 +155,6 @@ border-radius:8px;
 text-decoration:none;
 font-weight:500;
 transition:0.2s;
-
 }
 
 .btn-modern-outline:hover{
@@ -171,21 +165,17 @@ color:white;
 
 /* ADMIN BUTTON STYLE */
 .btn-admin{
-
 border:1px solid #f59e0b;
 color:#f59e0b;
 padding:6px 16px;
 border-radius:8px;
 font-weight:500;
 transition:0.2s;
-
 }
 
 .btn-admin:hover{
-
 background:#f59e0b;
 color:white;
-
 }
 
 </style>
