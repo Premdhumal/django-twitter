@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = 'django-insecure-change-this-later'
 
-DEBUG = True
+DEBUG = False   # MUST be False on Render
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['django-twitter-fz7p.onrender.com']
 
 
 # APPLICATIONS
@@ -25,22 +25,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'tweet',
-
-    # cloudinary
+    # Cloudinary
     'cloudinary',
     'cloudinary_storage',
+
+    # Your app
+    'tweet',
 ]
-
-# Enable tailwind ONLY in development
-if DEBUG:
-    INSTALLED_APPS += [
-        'tailwind',
-        'theme',
-    ]
-
-    TAILWIND_APP_NAME = 'theme'
-    INTERNAL_IPS = ['127.0.0.1']
 
 
 # MIDDLEWARE
@@ -104,45 +95,37 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # INTERNATIONAL
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# STATIC FILES (WhiteNoise)
+# STATIC FILES
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WHITENOISE_ALLOW_ALL_ORIGINS = True
 
 
-# CLOUDINARY MEDIA STORAGE (FINAL FIX FOR IMAGES)
+# CLOUDINARY CONFIG
 cloudinary.config(
     cloud_name="dysm8novd",
     api_key="463151459469324",
     api_secret="7znQhGRxSj0kWj9g7NZHX-jQaXQ",
 )
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+# THIS IS CRITICAL
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # AUTH REDIRECTS
 LOGIN_URL = '/accounts/login/'
-
 LOGIN_REDIRECT_URL = '/'
-
 LOGOUT_REDIRECT_URL = '/'
 
 
-# Render port safety
+# Render HTTPS fix
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
