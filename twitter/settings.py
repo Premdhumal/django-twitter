@@ -1,22 +1,26 @@
 from pathlib import Path
 import os
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
+# ======================
 # BASE DIRECTORY
+# ======================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# ======================
 # SECURITY
+# ======================
 SECRET_KEY = 'django-insecure-change-this-later'
 
-DEBUG = True   # MUST be False on Render
+# MUST be False on Render
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 
-# APPLICATIONS
+# ======================
+# INSTALLED APPS
+# ======================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Cloudinary
+    # Cloudinary (for image storage)
     'cloudinary',
     'cloudinary_storage',
 
@@ -34,10 +38,13 @@ INSTALLED_APPS = [
 ]
 
 
+# ======================
 # MIDDLEWARE
+# ======================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
+    # WhiteNoise for static files
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,10 +56,15 @@ MIDDLEWARE = [
 ]
 
 
+# ======================
+# URL CONFIG
+# ======================
 ROOT_URLCONF = 'twitter.urls'
 
 
+# ======================
 # TEMPLATES
+# ======================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,10 +84,15 @@ TEMPLATES = [
 ]
 
 
+# ======================
+# WSGI
+# ======================
 WSGI_APPLICATION = 'twitter.wsgi.application'
 
 
+# ======================
 # DATABASE
+# ======================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,24 +101,42 @@ DATABASES = {
 }
 
 
+# ======================
 # PASSWORD VALIDATION
+# ======================
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 
+# ======================
 # INTERNATIONAL
+# ======================
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
 
-# STATIC FILES
+# ======================
+# STATIC FILES (WhiteNoise)
+# ======================
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -109,23 +144,29 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_ALLOW_ALL_ORIGINS = True
 
 
-# CLOUDINARY CONFIG
-cloudinary.config(
-    cloud_name="dysm8novd",
-    api_key="463151459469324",
-    api_secret="7znQhGRxSj0kWj9g7NZHX-jQaXQ",
-)
+# ======================
+# CLOUDINARY STORAGE (CRITICAL FIX)
+# ======================
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dysm8novd',
+    'API_KEY': '463151459469324',
+    'API_SECRET': '7znQhGRxSj0kWj9g7NZHX-jQaXQ',
+}
 
-
-# THIS IS CRITICAL
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
+# ======================
 # AUTH REDIRECTS
+# ======================
 LOGIN_URL = '/accounts/login/'
+
 LOGIN_REDIRECT_URL = '/'
+
 LOGOUT_REDIRECT_URL = '/'
 
 
-# Render HTTPS fix
+# ======================
+# RENDER HTTPS FIX
+# ======================
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
