@@ -13,9 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-change-this-later'
 
 # MUST be False on Render
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+DEBUG = False
+
+ALLOWED_HOSTS = ['django-twitter-fz7p.onrender.com']
 
 
 # ======================
