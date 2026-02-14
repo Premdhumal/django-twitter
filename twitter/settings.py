@@ -1,10 +1,16 @@
 from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
+# BASE DIRECTORY
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # SECURITY
 SECRET_KEY = 'django-insecure-change-this-later'
+
 DEBUG = False
 
 ALLOWED_HOSTS = ['django-twitter-fz7p.onrender.com']
@@ -20,12 +26,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'tweet',
-    'tailwind',
-    'theme',
+
+    # cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
-TAILWIND_APP_NAME = 'theme'
-INTERNAL_IPS = ['127.0.0.1']
+# Enable tailwind ONLY in development
+if DEBUG:
+    INSTALLED_APPS += [
+        'tailwind',
+        'theme',
+    ]
+
+    TAILWIND_APP_NAME = 'theme'
+    INTERNAL_IPS = ['127.0.0.1']
 
 
 # MIDDLEWARE
@@ -89,13 +104,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # INTERNATIONAL
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
 
-# STATIC FILES (WhiteNoise serves these)
+# STATIC FILES (WhiteNoise)
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
@@ -104,15 +123,26 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+WHITENOISE_ALLOW_ALL_ORIGINS = True
 
-# MEDIA FILES (user uploads)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CLOUDINARY MEDIA STORAGE (FINAL FIX FOR IMAGES)
+cloudinary.config(
+    cloud_name="dysm8novd",
+    api_key="463151459469324",
+    api_secret="7znQhGRxSj0kWj9g7NZHX-jQaXQ",
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 # AUTH REDIRECTS
 LOGIN_URL = '/accounts/login/'
+
 LOGIN_REDIRECT_URL = '/'
+
 LOGOUT_REDIRECT_URL = '/'
 
-WHITENOISE_ALLOW_ALL_ORIGINS = True
+
+# Render port safety
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
