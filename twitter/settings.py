@@ -12,11 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 SECRET_KEY = 'django-insecure-change-this-later'
 
-# MUST be False on Render
+DEBUG = True   # True for local, False on Render
 
-DEBUG = False
-
-ALLOWED_HOSTS = ['django-twitter-fz7p.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # ======================
@@ -30,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Cloudinary (for image storage)
+    # Cloudinary
     'cloudinary',
     'cloudinary_storage',
 
@@ -45,7 +43,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # WhiteNoise for static files
+    # WhiteNoise
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -92,9 +90,8 @@ WSGI_APPLICATION = 'twitter.wsgi.application'
 
 
 # ======================
-# DATABASE
+# DATABASE (Neon PostgreSQL)
 # ======================
-#WE HAVE REMOVED SQLITE AND ARE USING POSTGRE FROM NEON TECH
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -108,6 +105,7 @@ DATABASES = {
         },
     }
 }
+
 
 # ======================
 # PASSWORD VALIDATION
@@ -141,7 +139,7 @@ USE_TZ = True
 
 
 # ======================
-# STATIC FILES (WhiteNoise)
+# STATIC FILES
 # ======================
 STATIC_URL = '/static/'
 
@@ -153,15 +151,17 @@ WHITENOISE_ALLOW_ALL_ORIGINS = True
 
 
 # ======================
-# CLOUDINARY STORAGE (CRITICAL FIX)
+# CLOUDINARY STORAGE (FINAL FIX)
 # ======================
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dysm8novd',
-    'API_KEY': '463151459469324',
-    'API_SECRET': '7znQhGRxSj0kWj9g7NZHX-jQaXQ',
+    "CLOUD_NAME": "dysm8novd",
+    "API_KEY": "463151459469324",
+    "API_SECRET": "7znQhGRxSj0kWj9g7NZHX-jQaXQ",
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+MEDIA_URL = "/media/"
 
 
 # ======================
@@ -178,3 +178,12 @@ LOGOUT_REDIRECT_URL = '/'
 # RENDER HTTPS FIX
 # ======================
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name = "dysm8novd",
+    api_key = "463151459469324",
+    api_secret = "7znQhGRxSj0kWj9g7NZHX-jQaXQ",
+    secure = True
+)
